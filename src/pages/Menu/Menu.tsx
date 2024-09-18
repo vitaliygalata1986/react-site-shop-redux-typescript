@@ -5,9 +5,11 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import Search from '../../components/Search/Search';
 import { Product } from '../../interfaces/product.interface';
 import styles from './Menu.module.css';
+import axios from 'axios';
 
 export function Menu() {
   const [products, setProduct] = useState<Product[]>([]);
+  const [isLoading, setIsloading] = useState<boolean>(false);
 
   const getMenu = async () => {
     /*
@@ -24,6 +26,24 @@ export function Menu() {
       return;
     }
       */
+
+    try {
+      setIsloading(true);
+      // иммитация зажержки, а только потом будем запрашивать данные
+      await new Promise<void>((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, 2000);
+      });
+      const { data } = await axios.get<Product[]>(`${PREFIX}/products`); // передаем дженерик - массив продуктов
+      // console.log(data); // data (6) [{…}, {…}, {…}, {…}, {…}, {…}]
+      setProduct(data);
+      setIsloading(false);
+    } catch (e) {
+      console.error(e);
+      setIsloading(false);
+      return;
+    }
   };
 
   // при первочной загрузке компонента вызываем нашу функцию
@@ -38,19 +58,22 @@ export function Menu() {
         <Search type="search" placeholder="Введите блюдо или состав" />
       </div>
       <div>
-        {products.map((product) => {
-          return (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              name={product.name}
-              description={product.ingredients.join(', ')}
-              rating={product.rating}
-              price={product.price}
-              image="/product-demo.png"
-            />
-          );
-        })}
+        {!isLoading &&
+          products.map((product) => {
+            return (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                description={product.ingredients.join(', ')}
+                rating={product.rating}
+                price={product.price}
+                image="/product-demo.png"
+              />
+            );
+          })}
+
+        {isLoading && <>Загружаем продукты...</>}
       </div>
     </>
   );
