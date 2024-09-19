@@ -5,11 +5,13 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import Search from '../../components/Search/Search';
 import { Product } from '../../interfaces/product.interface';
 import styles from './Menu.module.css';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import MenuList from './MenuList/MenuList';
 
 export function Menu() {
   const [products, setProduct] = useState<Product[]>([]);
   const [isLoading, setIsloading] = useState<boolean>(false);
+  const [error, setError] = useState<string | undefined>();
 
   const getMenu = async () => {
     /*
@@ -41,6 +43,10 @@ export function Menu() {
       setIsloading(false);
     } catch (e) {
       console.error(e);
+      if (e instanceof AxiosError) {
+        setError(e.message);
+      }
+
       setIsloading(false);
       return;
     }
@@ -58,20 +64,8 @@ export function Menu() {
         <Search type="search" placeholder="Введите блюдо или состав" />
       </div>
       <div>
-        {!isLoading &&
-          products.map((product) => {
-            return (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                name={product.name}
-                description={product.ingredients.join(', ')}
-                rating={product.rating}
-                price={product.price}
-                image="/product-demo.png"
-              />
-            );
-          })}
+        {error && <>{error}</>}
+        {!isLoading && <MenuList products={products} />}
 
         {isLoading && <>Загружаем продукты...</>}
       </div>
