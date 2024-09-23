@@ -23,6 +23,7 @@ const router = createBrowserRouter([
       {
         path: '/product/:id',
         element: <Product />,
+        errorElement: <>Ошибка</>,
         loader: async ({ params }) => {
           // loader - функция, которая говорит - как нам загрузить данные, перед тем как отобразить продукт. params - чтобы получить id
           // иммитация зажержки, а только потом будем запрашивать данные
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
             }, 2000);
           });
 
-          const { data } = await axios.get(`${PREFIX}/products/${params.id}`);
+          const { data } = await axios.get(`${PREFIX}/producsts/${params.id}`);
           return data;
         },
       },
