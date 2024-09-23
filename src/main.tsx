@@ -6,6 +6,8 @@ import { Menu } from './pages/Menu/Menu';
 import { Error } from './pages/Error/Error';
 import { Product } from './pages/Product/Product';
 import './index.css';
+import axios from 'axios';
+import { PREFIX } from './api/api';
 
 const router = createBrowserRouter([
   // массив объектов, который описывает наши роуты
@@ -21,6 +23,19 @@ const router = createBrowserRouter([
       {
         path: '/product/:id',
         element: <Product />,
+        loader: async ({ params }) => {
+          // loader - функция, которая говорит - как нам загрузить данные, перед тем как отобразить продукт. params - чтобы получить id
+          // иммитация зажержки, а только потом будем запрашивать данные
+
+          await new Promise<void>((resolve) => {
+            setTimeout(() => {
+              resolve();
+            }, 2000);
+          });
+
+          const { data } = await axios.get(`${PREFIX}/products/${params.id}`);
+          return data;
+        },
       },
       {
         path: '*',

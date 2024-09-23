@@ -31,12 +31,6 @@ export function Menu() {
 
     try {
       setIsloading(true);
-      // иммитация зажержки, а только потом будем запрашивать данные
-      await new Promise<void>((resolve) => {
-        setTimeout(() => {
-          resolve();
-        }, 2000);
-      });
       const { data } = await axios.get<Product[]>(`${PREFIX}/products`); // передаем дженерик - массив продуктов
       // console.log(data); // data (6) [{…}, {…}, {…}, {…}, {…}, {…}]
       setProduct(data);

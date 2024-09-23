@@ -1,16 +1,10 @@
-import { useParams } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 // import { Await, useLoaderData } from 'react-router-dom';
-//import { Product } from '../../interfaces/product.interface';
+import { Product } from '../../interfaces/product.interface';
 // import { Suspense } from 'react';
 
 export function Product() {
-  const params = useParams();
-  const id = params.id;
-  // console.log(params); // {id: '1'}
-  // console.log(id);
+  const data = useLoaderData() as Product; // приведем useLoaderData к одному продукту, потому, что useLoaderData - unknown
 
-  return (
-    // но пока данные не получили, нужно что-то показать
-    <>Product - {id}</>
-  );
+  return <>Product - {data.name}</>;
 }
