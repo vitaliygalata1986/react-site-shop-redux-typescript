@@ -1,8 +1,7 @@
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import cn from 'classnames';
 import styles from './Layout.module.css';
 import Button from '../../components/Button/Button';
-import { useEffect } from 'react';
 
 export function Layout() {
   // const location = useLocation(); // информация о том, где мы сейчас находимся

@@ -1,11 +1,12 @@
-import { MouseEvent, useState } from 'react';
-import Button, { ButtonAlternative } from './components/Button/Button';
+import { MouseEvent } from 'react';
+import Button from './components/Button/Button';
 import Input from './components/Input/Input';
 
 function App() {
-  const [counter, setCounter] = useState<number>(0);
+  // const [counter, setCounter] = useState<number>(0);
 
   const addCounter = (e: MouseEvent) => {
+    console.log(e);
     // MouseEvent импортируем из реакта
     // MouseEvent - синтетическое событие, и вся типизация этих событий лежит напрямую в реакт
     // все события в реакте являются синтетическими( тоесть не настоящими событиями, которые мы видим в работе в рамках DOM)

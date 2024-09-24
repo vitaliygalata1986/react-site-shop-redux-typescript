@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import { PREFIX } from '../../api/api';
 import Headling from '../../components/Headling/Headling';
-import ProductCard from '../../components/ProductCard/ProductCard';
 import Search from '../../components/Search/Search';
-import { Product } from '../../interfaces/product.interface';
+import { IProduct } from '../../interfaces/product.interface';
 import styles from './Menu.module.css';
 import axios, { AxiosError } from 'axios';
 import MenuList from './MenuList/MenuList';
 
-export function Menu() {
-  const [products, setProduct] = useState<Product[]>([]);
+function Menu() {
+  const [products, setProduct] = useState<IProduct[]>([]);
   const [isLoading, setIsloading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>();
 
@@ -20,7 +19,7 @@ export function Menu() {
       if (!res.ok) {
         return;
       }
-      const data = (await res.json()) as Product[]; // типизируем ответ от сервера - это будет массив продуктов
+      const data = (await res.json()) as IProduct[]; // типизируем ответ от сервера - это будет массив продуктов
       console.log(data);
       setProduct(data);
     } catch (e) {
@@ -31,7 +30,7 @@ export function Menu() {
 
     try {
       setIsloading(true);
-      const { data } = await axios.get<Product[]>(`${PREFIX}/products`); // передаем дженерик - массив продуктов
+      const { data } = await axios.get<IProduct[]>(`${PREFIX}/products`); // передаем дженерик - массив продуктов
       // console.log(data); // data (6) [{…}, {…}, {…}, {…}, {…}, {…}]
       setProduct(data);
       setIsloading(false);
@@ -66,3 +65,5 @@ export function Menu() {
     </>
   );
 }
+
+export default Menu;
