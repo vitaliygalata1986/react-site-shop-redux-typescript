@@ -1,0 +1,42 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  max-width: 500px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.field label {
+  color: #c4c4c4;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+}
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  font-family: 'Open Sans';
+  font-size: 14px;
+  color: var(--text-secondary-color);
+}
+.links a {
+  text-decoration: none;
+  color: #fe724c;
+}
+.error {
+  background-color: #ffc529;
+  color: #fff;
+  padding: 20px;
+}
