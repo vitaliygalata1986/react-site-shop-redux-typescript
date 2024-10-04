@@ -10,6 +10,7 @@ import { PREFIX } from './api/api';
 import AuthLayout from './layout/Auth/AuthLayout';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
+import RequireAuth from './api/RequireAuth';
 
 const Menu = lazy(() => import('./pages/Menu/Menu')); // теперь в Menu хранится lazy компонент Menu - он будет загружаться не сразу
 
@@ -17,7 +18,11 @@ const router = createBrowserRouter([
   // массив объектов, который описывает наши роуты
   {
     path: '/',
-    element: <Layout />,
+    element: (
+      <RequireAuth>
+        <Layout />
+      </RequireAuth>
+    ),
     children: [
       // здесь будут дочерние роуты
       {
