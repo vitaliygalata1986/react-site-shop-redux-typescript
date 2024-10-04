@@ -1,9 +1,10 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import styles from './Layout.module.css';
 import Button from '../../components/Button/Button';
 
 export function Layout() {
+  const navigate = useNavigate();
   // const location = useLocation(); // информация о том, где мы сейчас находимся
 
   /*
@@ -14,7 +15,8 @@ export function Layout() {
 
   const logout = () => {
     // dispatch(userActions.logout());
-    // navigate('/auth/login');
+    localStorage.removeItem('jwt');
+    navigate('/auth/login');
   };
   return (
     <main className={styles['main-layout']}>

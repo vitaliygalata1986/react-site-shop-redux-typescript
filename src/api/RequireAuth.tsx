@@ -9,7 +9,8 @@ import { Navigate } from 'react-router-dom';
 // Тип ReactNode указывает на любой допустимый JSX-элемент, который будет передан как дочерние компоненты.
 
 function RequireAuth({ children }: { children: ReactNode }) {
-  const jwt = null;
+  // const jwt = null;
+  const jwt = localStorage.getItem('jwt');
 
   if (!jwt) {
     // если у пользователя нет jwt токена
