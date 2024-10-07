@@ -11,6 +11,8 @@ import AuthLayout from './layout/Auth/AuthLayout';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import RequireAuth from './api/RequireAuth';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 const Menu = lazy(() => import('./pages/Menu/Menu')); // теперь в Menu хранится lazy компонент Menu - он будет загружаться не сразу
 
@@ -97,5 +99,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')!).render(
-  <RouterProvider router={router} />
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 );
