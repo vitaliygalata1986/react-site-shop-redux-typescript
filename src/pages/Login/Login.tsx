@@ -7,6 +7,9 @@ import { FormEvent, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { PREFIX } from '../../api/api';
 import { LoginResponse } from '../../interfaces/auth.interface';
+import { useDispatch } from 'react-redux';
+import { AppDispath } from '../../store/store';
+import { addJwt } from '../../store/user.slice';
 
 /*
 FormEvent — это тип события в React, который используется для работы с событиями форм, такими как отправка формы, ввод текста, выбор опций и т.д. 
@@ -25,6 +28,7 @@ export type LoginForm = {
 function Login() {
   const [error, setError] = useState<string | null>(); // null - так как ошибки может не быть
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispath>(); // экспортировали из базового store: export type AppDispath = typeof store.dispatch;
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null); // после сабмита очистим ошибку
@@ -43,6 +47,7 @@ function Login() {
       });
       console.log(data);
       localStorage.setItem('jwt', data.access_token);
+      dispatch(addJwt(data.access_token));
       navigate('/');
     } catch (error) {
       if (error instanceof AxiosError) {

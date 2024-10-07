@@ -1,9 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { userSlice } from './user.slice';
 
 export const store = configureStore({
   // сконфигурирем store
   // подключаем все доступные редюсеры
-  reducer: {},
+  reducer: {
+    user: userSlice,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>; // нам нужно то, что оно возвращает - используем утилитарный тип - ReturnType - возвращает состояние
