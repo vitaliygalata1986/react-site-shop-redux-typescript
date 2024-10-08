@@ -45,8 +45,8 @@ function Login() {
         email,
         password,
       });
-      console.log(data);
-      localStorage.setItem('jwt', data.access_token);
+      // console.log(data);
+      // localStorage.setItem('jwt', data.access_token);
       dispatch(addJwt(data.access_token));
       navigate('/');
     } catch (error) {

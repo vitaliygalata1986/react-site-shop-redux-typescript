@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { userSlice } from './user.slice';
+import userSlice, { JWT_PERSISTENT_STATE } from './user.slice';
+import { saveState } from './storage';
 
 export const store = configureStore({
   // сконфигурирем store
@@ -7,6 +8,13 @@ export const store = configureStore({
   reducer: {
     user: userSlice,
   },
+});
+
+store.subscribe(() => {
+  // получим состояние jwt и его сохраним
+  // console.log(store.getState().user.jwt);
+  // console.log(store.getState().user.jwt); // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAZ21haWwuY29tIiwiaWQiOjEsImlhdCI6MTcyODQyMTMyMn0.ykCOjbvfvX6EXmX6fLtT7CLGFA9_Of3z_1SHQQEAa8w
+  saveState({ jwt: store.getState().user.jwt }, JWT_PERSISTENT_STATE); // JWT_PERSISTENT_STATE -> userData
 });
 
 export type RootState = ReturnType<typeof store.getState>; // нам нужно то, что оно возвращает - используем утилитарный тип - ReturnType - возвращает состояние

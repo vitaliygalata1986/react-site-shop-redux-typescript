@@ -1,4 +1,6 @@
+import { RootState } from '@reduxjs/toolkit/query';
 import { ReactNode } from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 // Этот компонент RequireAuth является защитным механизмом для маршрутов в приложении на основе React с использованием библиотеки react-router-dom.
@@ -10,7 +12,9 @@ import { Navigate } from 'react-router-dom';
 
 function RequireAuth({ children }: { children: ReactNode }) {
   // const jwt = null;
-  const jwt = localStorage.getItem('jwt');
+  // const jwt = localStorage.getItem('jwt');
+  const jwt = useSelector((s: RootState) => s.user.jwt);
+  // console.log(jwt); // null
 
   if (!jwt) {
     // если у пользователя нет jwt токена
