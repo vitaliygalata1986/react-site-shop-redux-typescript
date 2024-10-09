@@ -2,9 +2,13 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import styles from './Layout.module.css';
 import Button from '../../components/Button/Button';
+import { logOut } from '../../store/user.slice';
+import { useDispatch } from 'react-redux';
+import { AppDispath } from '../../store/store';
 
 export function Layout() {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispath>();
   // const location = useLocation(); // информация о том, где мы сейчас находимся
 
   /*
@@ -14,8 +18,8 @@ export function Layout() {
 */
 
   const logout = () => {
-    // dispatch(userActions.logout());
-    localStorage.removeItem('jwt');
+    dispatch(logOut());
+    // localStorage.removeItem('jwt');
     navigate('/auth/login');
   };
   return (

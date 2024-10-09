@@ -3,13 +3,11 @@ import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import styles from './Login.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { FormEvent, useState } from 'react';
-import axios, { AxiosError } from 'axios';
-import { PREFIX } from '../../api/api';
-import { LoginResponse } from '../../interfaces/auth.interface';
-import { useDispatch } from 'react-redux';
+import { FormEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispath } from '../../store/store';
-import { addJwt } from '../../store/user.slice';
+import { login } from '../../store/user.slice';
+import { RootState } from '@reduxjs/toolkit/query';
 
 /*
 FormEvent — это тип события в React, который используется для работы с событиями форм, такими как отправка формы, ввод текста, выбор опций и т.д. 
@@ -29,6 +27,14 @@ function Login() {
   const [error, setError] = useState<string | null>(); // null - так как ошибки может не быть
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispath>(); // экспортировали из базового store: export type AppDispath = typeof store.dispatch;
+  const jwt = useSelector((s: RootState) => s.user.jwt);
+
+  useEffect(() => {
+    if (jwt) {
+      navigate('/');
+    }
+  }, [jwt, navigate]);
+
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null); // после сабмита очистим ошибку
@@ -40,6 +46,8 @@ function Login() {
   };
 
   const sendLogin = async (email: string, password: string) => {
+    dispatch(login({ email, password }));
+    /*
     try {
       const { data } = await axios.post<LoginResponse>(`${PREFIX}/auth/login`, {
         email,
@@ -54,6 +62,7 @@ function Login() {
         setError(error.response?.data.message);
       }
     }
+      */
   };
 
   return (
