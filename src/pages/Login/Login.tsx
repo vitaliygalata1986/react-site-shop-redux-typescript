@@ -3,10 +3,10 @@ import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import styles from './Login.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispath } from '../../store/store';
-import { login } from '../../store/user.slice';
+import { clearLoginError, login } from '../../store/user.slice';
 import { RootState } from '@reduxjs/toolkit/query';
 
 /*
@@ -24,10 +24,10 @@ export type LoginForm = {
 };
 
 function Login() {
-  const [error, setError] = useState<string | null>(); // null - так как ошибки может не быть
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispath>(); // экспортировали из базового store: export type AppDispath = typeof store.dispatch;
-  const jwt = useSelector((s: RootState) => s.user.jwt);
+  const { jwt, loginErrorMessage } = useSelector((s: RootState) => s.user); // получим из стейта jwt, loginErrorMessage
+  console.log(loginErrorMessage);
 
   useEffect(() => {
     if (jwt) {
@@ -37,7 +37,7 @@ function Login() {
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    setError(null); // после сабмита очистим ошибку
+    dispatch(clearLoginError()); // очищаем ошибку
     // console.log(e); // SyntheticBaseEvent
     const target = e.target as typeof e.target & LoginForm; // приводим к типу e.target и при этом он должен обладать некоторыми значениями type LoginForm
     const { email, password } = target; // const email = target.email; const password = target.password
@@ -47,28 +47,14 @@ function Login() {
 
   const sendLogin = async (email: string, password: string) => {
     dispatch(login({ email, password }));
-    /*
-    try {
-      const { data } = await axios.post<LoginResponse>(`${PREFIX}/auth/login`, {
-        email,
-        password,
-      });
-      // console.log(data);
-      // localStorage.setItem('jwt', data.access_token);
-      dispatch(addJwt(data.access_token));
-      navigate('/');
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setError(error.response?.data.message);
-      }
-    }
-      */
   };
 
   return (
     <div className={styles['login']}>
       <Headling>Вход</Headling>
-      {error && <div className={styles['error']}>{error}</div>}
+      {loginErrorMessage && (
+        <div className={styles['error']}>{loginErrorMessage}</div>
+      )}
       <form className={styles['form']} onSubmit={submit}>
         <div className={styles['field']}>
           <label htmlFor="email">Ваш email</label>
