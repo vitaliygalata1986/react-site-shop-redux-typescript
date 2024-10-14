@@ -2,13 +2,18 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import styles from './Layout.module.css';
 import Button from '../../components/Button/Button';
-import { logOut } from '../../store/user.slice';
-import { useDispatch } from 'react-redux';
+import { logOut, getProfile } from '../../store/user.slice';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispath } from '../../store/store';
+import { useEffect } from 'react';
+import { RootState } from '@reduxjs/toolkit/query';
 
 export function Layout() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispath>();
+  const profile = useSelector((s: RootState) => s.user.profile);
+  // console.log(profile);
+
   // const location = useLocation(); // информация о том, где мы сейчас находимся
 
   /*
@@ -17,11 +22,16 @@ export function Layout() {
   }, [location]);
 */
 
+  useEffect(() => {
+    dispatch(getProfile());
+  }, []);
+
   const logout = () => {
     dispatch(logOut());
     // localStorage.removeItem('jwt');
     navigate('/auth/login');
   };
+
   return (
     <main className={styles['main-layout']}>
       <div className={styles['main-layout__left']}>
@@ -31,12 +41,14 @@ export function Layout() {
             src="./avatar.png"
             alt="avatar"
           />
-          <div className={styles['main-layout__user-info']}>Галата Виталий</div>
+          <div className={styles['main-layout__user-info']}>
+            {profile?.name}
+          </div>
           <a
-            href="mailto:nertis44@gmail.com"
+            href={`mailto:${profile?.email}`}
             className={styles['main-layout__user-email']}
           >
-            nertis44@gmail.com
+            {profile?.email}
           </a>
         </div>
         <nav className={styles['main-layout__navigation']}>

@@ -27,7 +27,7 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispath>(); // экспортировали из базового store: export type AppDispath = typeof store.dispatch;
   const { jwt, loginErrorMessage } = useSelector((s: RootState) => s.user); // получим из стейта jwt, loginErrorMessage
-  console.log(loginErrorMessage);
+  // console.log(loginErrorMessage);
 
   useEffect(() => {
     if (jwt) {

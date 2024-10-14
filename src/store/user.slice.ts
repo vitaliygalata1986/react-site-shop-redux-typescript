@@ -3,6 +3,9 @@ import { loadState } from './storage';
 import axios, { AxiosError } from 'axios';
 import { PREFIX } from '../api/api';
 import { LoginResponse } from '../interfaces/auth.interface';
+import { Profile } from '../interfaces/user.interface';
+import { RootOptions } from 'react-dom/client';
+import { RootState } from '@reduxjs/toolkit/query';
 
 export const JWT_PERSISTENT_STATE = 'userData';
 
@@ -13,6 +16,7 @@ export interface UserPersistentState {
 export interface UserState {
   jwt: string | null;
   loginErrorMessage?: string; // изначально ошибка будет undefined
+  profile?: Profile;
 }
 
 // console.log(loadState(JWT_PERSISTENT_STATE)); // {jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6I…IzNX0.9m0P_jp_1fsaqSHUrY5qQhP9qH7Zvm3d_lMJFsNuKoo'}
@@ -40,6 +44,23 @@ export const login = createAsyncThunk(
   }
 );
 
+export const getProfile = createAsyncThunk<Profile, void, { state: RootState }>(
+  'user/getProfile',
+  async (_, thunkApi) => {
+    // thunkApi - это Api внтури thunk, позволяющий получить доступ к общему состоянию Redux - дя этого мы типизируем createAsyncThunk, он возвращает профайл createAsyncThunk<Profile> void - аргументы не нужны
+    // и передаем состояние - { state: RootState }
+    // первый аргумент - без парметров (_,)
+    // получим jwt
+    const jwt = thunkApi.getState().user.jwt;
+    const { data } = await axios.get<Profile>(`${PREFIX}/user/profile`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    return data;
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -63,6 +84,10 @@ export const userSlice = createSlice({
     });
     builder.addCase(login.rejected, (state, action) => {
       state.loginErrorMessage = action.error.message;
+    });
+
+    builder.addCase(getProfile.fulfilled, (state, action) => {
+      state.profile = action.payload;
     });
   },
 });
