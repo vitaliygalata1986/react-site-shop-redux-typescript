@@ -16,6 +16,7 @@ export interface UserPersistentState {
 export interface UserState {
   jwt: string | null;
   loginErrorMessage?: string; // изначально ошибка будет undefined
+  registerErrorMessage?: string; // изначально ошибка будет undefined
   profile?: Profile;
 }
 
@@ -35,6 +36,27 @@ export const login = createAsyncThunk(
         email: params.email,
         password: params.password,
       });
+      return data;
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        throw e.response?.data.message;
+      }
+    }
+  }
+);
+
+export const register = createAsyncThunk(
+  'user/register',
+  async (params: { email: string; password: string; name: string }) => {
+    try {
+      const { data } = await axios.post<LoginResponse>(
+        `${PREFIX}/auth/register`,
+        {
+          email: params.email,
+          password: params.password,
+          name: params.name,
+        }
+      );
       return data;
     } catch (e) {
       if (e instanceof AxiosError) {
@@ -71,6 +93,9 @@ export const userSlice = createSlice({
     clearLoginError: (state) => {
       state.loginErrorMessage = undefined;
     },
+    clearRegisterError: (state) => {
+      state.registerErrorMessage = undefined;
+    },
   },
   extraReducers: (builder) => {
     // builder позволяет добавить кейсы для каждой из асинхронной операции
@@ -89,9 +114,23 @@ export const userSlice = createSlice({
     builder.addCase(getProfile.fulfilled, (state, action) => {
       state.profile = action.payload;
     });
+
+    builder.addCase(register.fulfilled, (state, action) => {
+      // action можно не типизировать, так как он приймет сразу правильный вид
+      if (!action.payload) {
+        // если нет payload
+        return;
+      }
+      state.jwt = action.payload.access_token;
+    });
+
+    builder.addCase(register.rejected, (state, action) => {
+      state.registerErrorMessage = action.error.message;
+    });
   },
 });
 
 export default userSlice.reducer;
 
-export const { logOut, clearLoginError } = userSlice.actions;
+export const { logOut, clearLoginError, clearRegisterError } =
+  userSlice.actions;
