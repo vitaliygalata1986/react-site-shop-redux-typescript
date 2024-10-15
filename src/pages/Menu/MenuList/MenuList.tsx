@@ -18,7 +18,6 @@ function MenuList({ products }: MenuListProps) {
           />
         );
       })}
-      ;
     </div>
   );
 }

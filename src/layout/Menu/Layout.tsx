@@ -12,7 +12,7 @@ export function Layout() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispath>();
   const profile = useSelector((s: RootState) => s.user.profile);
-  // console.log(profile);
+  const items = useSelector((s: RootState) => s.cart.items);
 
   // const location = useLocation(); // информация о том, где мы сейчас находимся
 
@@ -74,6 +74,7 @@ export function Layout() {
             <img src="./cart-icon.svg" alt="cart-icon" />
             Корзина
           </NavLink>
+          {items.reduce((acc, item) => (acc += item.count), 0)}
         </nav>
         <Button
           appearence="small"
