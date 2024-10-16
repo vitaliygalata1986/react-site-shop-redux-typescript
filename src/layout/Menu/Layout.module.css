@@ -69,3 +69,15 @@
 .active {
   color: var(--primary-hover-color);
 }
+
+.main-layout__cart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-color);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  color: var(--white-color);
+}
