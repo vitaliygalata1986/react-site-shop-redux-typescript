@@ -1,4 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { loadState } from './storage';
+
+export const CART_PERSISTENT_STATE = 'cartData';
 
 // нам нужно хранить в корзине id товара и количество
 export interface CartItem {
@@ -9,8 +12,12 @@ export interface CartItem {
 export interface CartState {
   items: CartItem[];
 }
+/*
+Функция loadState<CartState>(CART_PERSISTENT_STATE) пытается загрузить состояние корзины из localStorage при инициализации.
+Если состояние не загружено (возвращает null или undefined), используется значение по умолчанию { items: [] }.
+*/
 
-const initialState: CartState = {
+const initialState: CartState = loadState<CartState>(CART_PERSISTENT_STATE) ?? {
   items: [],
 };
 

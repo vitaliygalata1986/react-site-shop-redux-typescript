@@ -4,7 +4,6 @@ import axios, { AxiosError } from 'axios';
 import { PREFIX } from '../api/api';
 import { LoginResponse } from '../interfaces/auth.interface';
 import { Profile } from '../interfaces/user.interface';
-import { RootOptions } from 'react-dom/client';
 import { RootState } from '@reduxjs/toolkit/query';
 
 export const JWT_PERSISTENT_STATE = 'userData';
