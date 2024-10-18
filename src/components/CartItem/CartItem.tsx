@@ -2,22 +2,26 @@ import { CardItemProps } from './CartItem.props';
 import styles from './CartItem.module.css';
 import { MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
-import { add } from '../../store/cart.slice';
+import { remove, decrease, increase } from '../../store/cart.slice';
 import { AppDispath } from '../../store/store';
 
-function CardItem({ id, name, price, image, count }: CardItemProps) {
+function CardItem({ id, name, price, count }: CardItemProps) {
   const dispatch = useDispatch<AppDispath>();
 
-  const addItemToCart = (e: MouseEvent) => {
+  const increaseItem = (e: MouseEvent) => {
     e.preventDefault();
-    dispatch(add(id));
+    dispatch(increase(id));
   };
 
-  const increase = () => {};
+  const decreaseItem = (e: MouseEvent) => {
+    e.preventDefault();
+    dispatch(decrease(id));
+  };
 
-  const decrease = () => {};
-
-  const remove = () => {};
+  const removeItem = (e: MouseEvent) => {
+    e.preventDefault();
+    dispatch(remove(id));
+  };
 
   return (
     <div className={styles['item']}>
@@ -38,14 +42,14 @@ function CardItem({ id, name, price, image, count }: CardItemProps) {
         </div>
       </div>
       <div className={styles['item__button']}>
-        <button className={styles['item__minus']} onClick={increase}>
+        <button className={styles['item__minus']} onClick={decreaseItem}>
           <span>&#8722;</span>
         </button>
-        <span className={styles['item__count']}>01</span>
-        <button className={styles['item__plus']} onClick={decrease}>
+        <span className={styles['item__count']}>{count}</span>
+        <button className={styles['item__plus']} onClick={increaseItem}>
           <span>&#43;</span>
         </button>
-        <button className={styles['item__remove']} onClick={remove}>
+        <button className={styles['item__remove']} onClick={removeItem}>
           {' '}
           <img
             className={styles['item__delete']}

@@ -7,6 +7,7 @@ import axios from 'axios';
 import { IProduct } from '../../interfaces/product.interface';
 import { PREFIX } from '../../api/api';
 import styles from '../../components/CartItem/CartItem.module.css';
+import stylesCart from './Cart.module.css';
 
 export function Cart() {
   const [cartProducts, setCartProducts] = useState<IProduct[]>([]);
@@ -41,10 +42,10 @@ export function Cart() {
 
   return (
     <div className={styles['item__wrapper']}>
-      <Heading className="title">Корзина</Heading>
+      <Heading className={stylesCart['item__title']}>Корзина</Heading>
       <div className={styles['item__element']}>
         {items.map((i) => {
-          console.log(i); // {id: 1, count: 1}
+          // console.log(i); // {id: 1, count: 1}
           const product = cartProducts.find((p) => p.id === i.id); // найдем продукт по id
           if (!product) {
             // если продукт не нашли, то возвращаем ничего

@@ -89,4 +89,5 @@
 .item__remove {
   background-color: transparent;
   border: none;
+  cursor: pointer;
 }
