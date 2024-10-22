@@ -8,6 +8,9 @@ import { IProduct } from '../../interfaces/product.interface';
 import { PREFIX } from '../../api/api';
 import styles from '../../components/CartItem/CartItem.module.css';
 import stylesCart from './Cart.module.css';
+import Button from '../../components/Button/Button';
+
+const DELIVERY = 100;
 
 export function Cart() {
   const [cartProducts, setCartProducts] = useState<IProduct[]>([]);
@@ -15,6 +18,20 @@ export function Cart() {
   // получим состояние корзины
   const items = useSelector((s: RootState) => s.cart.items); // RootState - состояние
   // console.log(items); // [{id: 1, count: 1}]
+
+  const total = items
+    .map((i) => {
+      const product = cartProducts.find((p) => p.id === i.id);
+      console.log(product);
+      console.log(i);
+      if (!product) {
+        // если продуктов в корзине нет, то возвращаем 0
+        return 0;
+      }
+      return i.count * product.price;
+    })
+    // так как map вернул массив "300" "280" "320" - нам нужно пройтись по ниму, используя reduce
+    .reduce((acc, i) => (acc += i), 0);
 
   // И зная id вытащим информацию об одном товаре из корзины.
   const getItem = async (id: number) => {
@@ -53,6 +70,32 @@ export function Cart() {
           }
           return <CardItem count={i.count} {...product} key={product.id} />;
         })}
+      </div>
+      <div className={stylesCart['item__table']}>
+        <div className={stylesCart['item__table-el']}>
+          <span className={stylesCart['item__table-info']}>Итог</span>
+          <div className={stylesCart['item__table-price']}>
+            <span>{total} </span>
+            грн.
+          </div>
+        </div>
+        <div className={stylesCart['item__table-el']}>
+          <span className={stylesCart['item__table-info']}>Доставка</span>
+          <div className={stylesCart['item__table-price']}>
+            <span>{DELIVERY}</span> грн.
+          </div>
+        </div>
+        <div className={stylesCart['item__table-el']}>
+          <span className={stylesCart['item__table-info']}>
+            Итог <span>(1)</span>
+          </span>
+          <div className={stylesCart['item__table-price']}>
+            <span>{total + DELIVERY}</span> грн.
+          </div>
+        </div>
+      </div>
+      <div className={stylesCart['item__btn']}>
+        <Button appearence="big">Оформить</Button>
       </div>
     </div>
   );
