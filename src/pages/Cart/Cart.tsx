@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Heading from '../../components/Headling/Headling';
 import { RootState } from '../../store/store';
 import CardItem from '../../components/CartItem/CartItem';
@@ -9,15 +9,21 @@ import { PREFIX } from '../../api/api';
 import styles from '../../components/CartItem/CartItem.module.css';
 import stylesCart from './Cart.module.css';
 import Button from '../../components/Button/Button';
+import { useNavigate } from 'react-router-dom';
+import { clean } from '../../store/cart.slice';
 
 const DELIVERY = 100;
 
 export function Cart() {
   const [cartProducts, setCartProducts] = useState<IProduct[]>([]);
+  const dispatch = useDispatch();
 
   // получим состояние корзины
   const items = useSelector((s: RootState) => s.cart.items); // RootState - состояние
+  const jwt = useSelector((s: RootState) => s.user.jwt); // RootState - состояние
   // console.log(items); // [{id: 1, count: 1}]
+
+  const navigate = useNavigate();
 
   const total = items
     .map((i) => {
@@ -49,6 +55,23 @@ export function Cart() {
   const loadAllItems = async () => {
     const res = await Promise.all(items.map((i) => getItem(i.id))); // передаем массив промисов, res будет содержать массив продуктов
     setCartProducts(res);
+  };
+
+  const checkout = async () => {
+    // не принципиально, что вернет
+    await axios.post(
+      `${PREFIX}/order`,
+      {
+        products: items, //  products, потому, что так нужно в бек-енд данные передавать
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+    dispatch(clean());
+    navigate('/success');
   };
 
   // получим все items в момент, когда у нас меняется items и мы находимся на этой страничке.
@@ -87,7 +110,7 @@ export function Cart() {
         </div>
         <div className={stylesCart['item__table-el']}>
           <span className={stylesCart['item__table-info']}>
-            Итог <span>(1)</span>
+            Итог <span>({items.length})</span>
           </span>
           <div className={stylesCart['item__table-price']}>
             <span>{total + DELIVERY}</span> грн.
@@ -95,7 +118,9 @@ export function Cart() {
         </div>
       </div>
       <div className={stylesCart['item__btn']}>
-        <Button appearence="big">Оформить</Button>
+        <Button appearence="big" onClick={checkout}>
+          Оформить
+        </Button>
       </div>
     </div>
   );

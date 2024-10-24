@@ -14,6 +14,7 @@ import RequireAuth from './api/RequireAuth';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { Cart } from './pages/Cart/Cart';
+import Success from './pages/Succes/Success';
 
 const Menu = lazy(() => import('./pages/Menu/Menu')); // теперь в Menu хранится lazy компонент Menu - он будет загружаться не сразу
 
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
       {
         path: 'cart',
         element: <Cart />,
+      },
+      {
+        path: 'success',
+        element: <Success />,
       },
     ],
   },
