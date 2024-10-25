@@ -80,4 +80,5 @@
   height: 20px;
   font-size: 12px;
   color: var(--white-color);
+  flex-shrink: 0;
 }
