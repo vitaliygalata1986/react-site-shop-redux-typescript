@@ -23,4 +23,4 @@ npm run dev
 ```
 
 3. Demo:  
-   <a href="https://vitaliygalata1986.github.io/react-site-shop-redux-typescript/auth/login">Демо-версия</a>
+   <a target="_blank" href="https://vitaliygalata1986.github.io/react-site-shop-redux-typescript/auth/login">Демо-версия</a>
