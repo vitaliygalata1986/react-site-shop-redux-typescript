@@ -59,7 +59,10 @@ export function Layout() {
               })
             }
           >
-            <img src="./menu-icon.svg" alt="menu-icon" />
+            <img
+              src={`${import.meta.env.BASE_URL}menu-icon.svg`}
+              alt="menu-icon"
+            />
             Меню
           </NavLink>
           <NavLink
@@ -70,7 +73,10 @@ export function Layout() {
               })
             }
           >
-            <img src="./cart-icon.svg" alt="cart-icon" />
+            <img
+              src={`${import.meta.env.BASE_URL}cart-icon.svg`}
+              alt="cart-icon"
+            />
             Корзина
             <span className={styles['main-layout__cart']}>
               {items.reduce((acc, item) => (acc += item.count), 0)}
@@ -82,7 +88,7 @@ export function Layout() {
           className={styles['main-layout__logout']}
           onClick={logout}
         >
-          <img src="./logout.svg" alt="Выйти" />
+          <img src={`${import.meta.env.BASE_URL}logout.svg`} alt="Выйти" />
           Выйти
         </Button>
       </div>

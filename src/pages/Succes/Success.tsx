@@ -7,7 +7,10 @@ function Success() {
   const navigate = useNavigate();
   return (
     <div className={styles['success']}>
-      <img src="/pizza.png" alt="Изображение пиццы" />
+      <img
+        src={`${import.meta.env.BASE_URL}pizza.png`}
+        alt="Изображение пиццы"
+      />
       <Heading className={styles['success__title']}>
         Ваш заказ успешно <br /> оформлен!
       </Heading>

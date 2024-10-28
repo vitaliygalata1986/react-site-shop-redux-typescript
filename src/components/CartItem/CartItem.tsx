@@ -28,7 +28,7 @@ function CardItem({ id, name, price, count }: CardItemProps) {
       <div className={styles['item__container']}>
         <div>
           <img
-            src="/product-demo.png"
+            src={`${import.meta.env.BASE_URL}product-demo.png`}
             alt={name}
             className={styles['item__img']}
           />

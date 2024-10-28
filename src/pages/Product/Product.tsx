@@ -33,7 +33,10 @@ export function Product() {
                     className={styles['product-prev']}
                     onClick={() => navigate(-1)}
                   >
-                    <img src="/button_left.svg" alt="prev" />
+                    <img
+                      src={`${import.meta.env.BASE_URL}button_left.svg`}
+                      alt="prev"
+                    />
                   </button>
                   <Heading>{data.name}</Heading>
                 </div>
@@ -42,14 +45,18 @@ export function Product() {
                   className={styles['product-buy']}
                   onClick={() => dispatch(add(data.id))}
                 >
-                  <img src="/cart-icon-white.svg" alt="cart icon" />В корзину
+                  <img
+                    src={`${import.meta.env.BASE_URL}cart-icon-white.svg`}
+                    alt="cart icon"
+                  />
+                  В корзину
                 </Button>
               </div>
               <div className={styles['product-bottom']}>
                 <div className={styles['product-bottom__left']}>
                   <img
                     className={styles['product-bottom__image']}
-                    src="/product-demo.png"
+                    src={`${import.meta.env.BASE_URL}product-demo.png`}
                     alt={data.name}
                   />
                 </div>
@@ -69,7 +76,10 @@ export function Product() {
                     Рейтинг
                     <span className={styles['product-rayting']}>
                       {data.rating}
-                      <img src="/cart-button-icon.svg" alt="Иконка звезды" />
+                      <img
+                        src={`${import.meta.env.BASE_URL}cart-button-icon.svg`}
+                        alt="Иконка звезды"
+                      />
                     </span>
                   </div>
                   <div className={styles['product-bottom__right-bottom']}>
