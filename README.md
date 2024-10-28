@@ -8,7 +8,7 @@
 
 ### Используемый API
 
-- https://purpleschool.ru/pizza-api-demo
+- https://purpleschool.ru/
 
 ### Установка и запуск
 
@@ -23,4 +23,4 @@ npm run dev
 ```
 
 3. Demo:  
-   <a target="_blank" href="https://vitaliygalata1986.github.io/react-site-shop-redux-typescript/auth/login">Демо-версия</a>
+   <a target="_blank" href="https://vitaliygalata1986.github.io/react-site-shop-redux-typescript/">Демо-версия</a>
