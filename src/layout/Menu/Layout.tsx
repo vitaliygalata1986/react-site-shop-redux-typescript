@@ -37,7 +37,7 @@ export function Layout() {
         <div className={styles['main-layout__user']}>
           <img
             className={styles['main-layout__avatar']}
-            src="./avatar.png"
+            src={`${import.meta.env.BASE_URL}avatar.png`}
             alt="avatar"
           />
           <div className={styles['main-layout__user-info']}>

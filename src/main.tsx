@@ -18,44 +18,45 @@ import Success from './pages/Succes/Success';
 
 const Menu = lazy(() => import('./pages/Menu/Menu')); // теперь в Menu хранится lazy компонент Menu - он будет загружаться не сразу
 
-const router = createBrowserRouter([
-  // массив объектов, который описывает наши роуты
-  {
-    path: '/',
-    element: (
-      <RequireAuth>
-        <Layout />
-      </RequireAuth>
-    ),
-    children: [
-      // здесь будут дочерние роуты
-      {
-        path: '/',
-        element: (
-          <Suspense fallback={<>Загрузка...</>}>
-            <Menu />
-          </Suspense>
-        ),
-      },
-      {
-        path: '/product/:id',
-        element: <Product />,
-        errorElement: <>Ошибка</>,
-        loader: async ({ params }) => {
-          // loader - функция, которая говорит - как нам загрузить данные, перед тем как отобразить продукт. params - чтобы получить id
-          // иммитация зажержки, а только потом будем запрашивать данные
-          // throw new Error('error');
-          // defer - позволяет обернуть набор данных, которые сами по себе получаются асинхронными
-          return defer({
-            // получим в data некоторый набор данных
+const router = createBrowserRouter(
+  [
+    // массив объектов, который описывает наши роуты
+    {
+      path: '/',
+      element: (
+        <RequireAuth>
+          <Layout />
+        </RequireAuth>
+      ),
+      children: [
+        // здесь будут дочерние роуты
+        {
+          path: '/',
+          element: (
+            <Suspense fallback={<>Загрузка...</>}>
+              <Menu />
+            </Suspense>
+          ),
+        },
+        {
+          path: '/product/:id',
+          element: <Product />,
+          errorElement: <>Ошибка</>,
+          loader: async ({ params }) => {
+            // loader - функция, которая говорит - как нам загрузить данные, перед тем как отобразить продукт. params - чтобы получить id
+            // иммитация зажержки, а только потом будем запрашивать данные
+            // throw new Error('error');
+            // defer - позволяет обернуть набор данных, которые сами по себе получаются асинхронными
+            return defer({
+              // получим в data некоторый набор данных
 
-            data: axios
-              .get(`${PREFIX}/products/${params.id}`)
-              .then((data) => data)
-              .catch((error) => {
-                throw new Error(error);
-              }),
-            /*
+              data: axios
+                .get(`${PREFIX}/products/${params.id}`)
+                .then((data) => data)
+                .catch((error) => {
+                  throw new Error(error);
+                }),
+              /*
             data: new Promise((resolve, reject) => {
               setTimeout(() => {
                 axios
@@ -65,9 +66,9 @@ const router = createBrowserRouter([
               }, 2000);
             }),
             */
-          });
+            });
 
-          /*
+            /*
           await new Promise<void>((resolve) => {
             setTimeout(() => {
               resolve();
@@ -76,37 +77,41 @@ const router = createBrowserRouter([
           const { data } = await axios.get(`${PREFIX}/products/${params.id}`);
           return data;
           */
+          },
         },
-      },
-      {
-        path: 'cart',
-        element: <Cart />,
-      },
-      {
-        path: 'success',
-        element: <Success />,
-      },
-    ],
-  },
+        {
+          path: 'cart',
+          element: <Cart />,
+        },
+        {
+          path: 'success',
+          element: <Success />,
+        },
+      ],
+    },
+    {
+      path: '/auth',
+      element: <AuthLayout />,
+      children: [
+        {
+          path: 'login',
+          element: <Login />,
+        },
+        {
+          path: 'register',
+          element: <Register />,
+        },
+      ],
+    },
+    {
+      path: '*',
+      element: <ErrorPage />,
+    },
+  ],
   {
-    path: '/auth',
-    element: <AuthLayout />,
-    children: [
-      {
-        path: 'login',
-        element: <Login />,
-      },
-      {
-        path: 'register',
-        element: <Register />,
-      },
-    ],
-  },
-  {
-    path: '*',
-    element: <ErrorPage />,
-  },
-]);
+    basename: '/react-site-shop-redux-typescript/',
+  }
+);
 
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>

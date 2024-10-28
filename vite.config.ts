@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react-swc';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // base: '/shop-react-typescript/',
+  base: '/react-site-shop-redux-typescript/',
 });
