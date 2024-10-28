@@ -1,8 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import styles from './AuthLayout.module.css';
 
-import cn from 'classnames';
-
 function AuthLayout() {
   return (
     <main className={styles['auth-layout']}>

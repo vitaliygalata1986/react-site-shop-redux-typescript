@@ -4,9 +4,8 @@ import styles from './Layout.module.css';
 import Button from '../../components/Button/Button';
 import { logOut, getProfile } from '../../store/user.slice';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispath } from '../../store/store';
+import { AppDispath, RootState } from '../../store/store';
 import { useEffect } from 'react';
-import { RootState } from '@reduxjs/toolkit/query';
 
 export function Layout() {
   const navigate = useNavigate();

@@ -5,9 +5,8 @@ import styles from './Login.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { FormEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispath } from '../../store/store';
+import { AppDispath, RootState } from '../../store/store';
 import { clearLoginError, login } from '../../store/user.slice';
-import { RootState } from '@reduxjs/toolkit/query';
 
 /*
 FormEvent — это тип события в React, который используется для работы с событиями форм, такими как отправка формы, ввод текста, выбор опций и т.д. 
@@ -19,6 +18,9 @@ export type LoginForm = {
     value: string;
   };
   password: {
+    value: string;
+  };
+  name: {
     value: string;
   };
 };
