@@ -38,7 +38,9 @@ export const login = createAsyncThunk(
       return data;
     } catch (e) {
       if (e instanceof AxiosError) {
-        throw e.response?.data.message;
+        throw Array.isArray(e.response?.data.message)
+          ? e.response?.data.message[0]
+          : e.response?.data.message;
       }
     }
   }
@@ -68,9 +70,9 @@ export const register = createAsyncThunk(
 export const getProfile = createAsyncThunk<Profile, void, { state: RootState }>(
   'user/getProfile',
   async (_, thunkApi) => {
-    // thunkApi - это Api внтури thunk, позволяющий получить доступ к общему состоянию Redux - дя этого мы типизируем createAsyncThunk, он возвращает профайл createAsyncThunk<Profile> void - аргументы не нужны
+    // thunkApi - это Api внтури thunk, позволяющий получить доступ к общему состоянию Redux - для этого мы типизируем createAsyncThunk, он возвращает профайл createAsyncThunk<Profile> void - аргументы не нужны
     // и передаем состояние - { state: RootState }
-    // первый аргумент - без парметров (_,)
+    // первый аргумент - без параметров (_,)
     // получим jwt
     const jwt = thunkApi.getState().user.jwt;
     const { data } = await axios.get<Profile>(`${PREFIX}/user/profile`, {
