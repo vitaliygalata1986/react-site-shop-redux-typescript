@@ -42,7 +42,7 @@ function Register() {
     e.preventDefault();
     dispatch(clearRegisterError()); // очищаем ошибку
     // console.log(e); // SyntheticBaseEvent
-    const target = e.target as typeof e.target & LoginForm; // приводим к типу e.target и при этом он должен обладать некоторыми значениями type LoginForm
+    const target = e.target as typeof e.target & RegisterForm; // приводим к типу e.target и при этом он должен обладать некоторыми значениями type RegisterForm
     const { email, password, name } = target; // const email = target.email; const password = target.password
     dispatch(
       register({
