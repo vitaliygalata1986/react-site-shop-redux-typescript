@@ -7,7 +7,6 @@ import { FormEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispath, RootState } from '../../store/store';
 import { clearRegisterError, register } from '../../store/user.slice';
-import { LoginForm } from '../Login/Login';
 
 /*
 FormEvent — это тип события в React, который используется для работы с событиями форм, такими как отправка формы, ввод текста, выбор опций и т.д. 
