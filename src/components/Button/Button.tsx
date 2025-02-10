@@ -7,6 +7,8 @@ import cn from 'classnames';
 // во первых - сделаем button функциональным компонентом - добавим FC
 // при этом он принимает дженерик, который описывает его свойства
 
+
+
 export const ButtonAlternative: FC<ButtonProps> = ({
   className,
   children,

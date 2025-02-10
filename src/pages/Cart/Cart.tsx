@@ -22,20 +22,22 @@ export function Cart() {
   const items = useSelector((s: RootState) => s.cart.items); // RootState - состояние
   const jwt = useSelector((s: RootState) => s.user.jwt); // RootState - состояние
   // console.log(items); // [{id: 1, count: 1}]
+  // console.log(cartProducts); //  [{…}, {…}, {…}] {id: 1, name: 'Наслаждение', price: 300, ingredients: Array(4), …}
 
   const navigate = useNavigate();
 
   const total = items
     .map((i) => {
       const product = cartProducts.find((p) => p.id === i.id);
-      console.log(product);
-      console.log(i);
+      //console.log(product);
+      //console.log(i);
       if (!product) {
         // если продуктов в корзине нет, то возвращаем 0
         return 0;
       }
       return i.count * product.price;
     })
+    // console.log(total); // [3600, 1400, 1280]
     // так как map вернул массив "300" "280" "320" - нам нужно пройтись по ниму, используя reduce
     .reduce((acc, i) => (acc += i), 0);
 
@@ -118,7 +120,7 @@ export function Cart() {
         </div>
       </div>
       <div className={stylesCart['item__btn']}>
-        <Button appearence="big" onClick={checkout}>
+        <Button appearence='big' onClick={checkout}>
           Оформить
         </Button>
       </div>

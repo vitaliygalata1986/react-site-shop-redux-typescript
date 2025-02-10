@@ -27,7 +27,7 @@ function Menu() {
           name,
         },
       });
-      // console.log(data); // data (6) [{…}, {…}, {…}, {…}, {…}, {…}]
+      console.log(data); // data (6) [{…}, {…}, {…}, {…}, {…}, {…}]
       setProduct(data);
       setIsloading(false);
     } catch (e) {

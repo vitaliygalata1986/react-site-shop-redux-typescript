@@ -1,28 +1,29 @@
-# Интернет-магазин
+# Online Store
 
-Интернет-магазин разработан с использованием такого стека технологий:
+The online store is built using the following technology stack:
 
 1. **React**
 2. **TypeScript**
 3. **React Redux Toolkit**
+4. **JWT token storage and retrieval using LocalStorage**
 
-### Используемый API
+### API Used
 
 - https://purpleschool.ru/
 
-### Установка и запуск
+### Installation and Launch
 
-> **Примечание:** Перед запуском приложения убедитесь, что активирован VPN.
+> **Note:** Before running the application, make sure VPN is activated.
 
-1. Установите зависимости:
+1. Install dependencies:
    ```bash
    npm install
    ```
-2. Запустите приложение:
+2. Start the application:
 
 ```bash
 npm run dev
 ```
 
-3. Demo:  
-   <a target="_blank" href="https://vitaliygalata1986.github.io/react-site-shop-redux-typescript/">Демо-версия</a>
+3. Live demo:  
+   <a target="_blank" href="https://vitaliygalata1986.github.io/react-site-shop-redux-typescript/">Live demo</a>
