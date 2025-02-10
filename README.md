@@ -5,8 +5,8 @@ The online store is built using the following technology stack:
 1. **React**
 2. **TypeScript**
 3. **React Redux Toolkit**
-4. **JWT token storage and retrieval using LocalStorage**
-
+4. **LocalStorage**
+5. **User authentication with JWT tokens**
 ### API Used
 
 - https://purpleschool.ru/
