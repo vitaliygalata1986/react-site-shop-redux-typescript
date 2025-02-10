@@ -7,7 +7,6 @@ import { FormEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispath, RootState } from '../../store/store';
 import { clearRegisterError, register } from '../../store/user.slice';
-import { LoginForm } from '../Login/Login';
 
 /*
 FormEvent — это тип события в React, который используется для работы с событиями форм, такими как отправка формы, ввод текста, выбор опций и т.д. 
@@ -42,7 +41,7 @@ function Register() {
     e.preventDefault();
     dispatch(clearRegisterError()); // очищаем ошибку
     // console.log(e); // SyntheticBaseEvent
-    const target = e.target as typeof e.target & LoginForm; // приводим к типу e.target и при этом он должен обладать некоторыми значениями type LoginForm
+    const target = e.target as typeof e.target & RegisterForm; // приводим к типу e.target и при этом он должен обладать некоторыми значениями type RegisterForm
     const { email, password, name } = target; // const email = target.email; const password = target.password
     dispatch(
       register({

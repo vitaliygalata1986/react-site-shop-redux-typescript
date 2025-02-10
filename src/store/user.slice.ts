@@ -38,7 +38,9 @@ export const login = createAsyncThunk(
       return data;
     } catch (e) {
       if (e instanceof AxiosError) {
-        throw e.response?.data.message;
+        throw Array.isArray(e.response?.data.message)
+          ? e.response?.data.message[0]
+          : e.response?.data.message;
       }
     }
   }
@@ -65,12 +67,50 @@ export const register = createAsyncThunk(
   }
 );
 
+/*
+createAsyncThunk — это утилита из библиотеки Redux Toolkit, которая упрощает создание асинхронных экшенов в Redux. 
+Она используется для обработки асинхронных операций, таких как запросы на сервер, 
+и автоматически генерирует состояния (pending, fulfilled, rejected) для отслеживания выполнения запроса.
+*/
+
+/*
+Типизация (<Returned, ThunkArg, ThunkApiConfig>):
+Returned: Тип данных, которые возвращает payloadCreator (в нашем случае объект профиля Profile).
+ThunkArg: Тип аргумента, который передается в dispatch (например, идентификатор пользователя или void, если аргументы не нужны). dispatch(getProfile());
+ThunkApiConfig: Настройки, такие как state, переданные в thunkApi.
+*/
+
+/*
+createAsyncThunk<Returned, ThunkArg, ThunkApiConfig>(
+  typePrefix: string,
+  payloadCreator: (arg: ThunkArg, thunkApi: ThunkApiConfig) => Promise<Returned> | Returned
+);
+*/
+
+/*
+  typePrefix - Префикс, который используется для идентификации типов экшенов (pending, fulfilled, rejected).
+  Например, user/getProfile будет генерировать экшены: user/getProfile/pending, user/getProfile/fulfilled, user/getProfile/rejected.
+*/
+
+/*
+payloadCreator (функция):
+  Функция, выполняющая асинхронную операцию (например, запрос данных) и возвращающая результат или ошибку. async (_, thunkApi) => {
+  Принимает два параметра:
+    arg: Значение, переданное в dispatch, например, параметры запроса.
+    thunkApi: Объект с дополнительными инструментами, такими как:
+      dispatch: Диспатч для отправки других экшенов.
+      getState: Получение текущего состояния Redux.
+      rejectWithValue: Возврат пользовательской ошибки.
+*/
+
 export const getProfile = createAsyncThunk<Profile, void, { state: RootState }>(
-  'user/getProfile',
+  'user/getProfile', // typePrefix
   async (_, thunkApi) => {
-    // thunkApi - это Api внтури thunk, позволяющий получить доступ к общему состоянию Redux - дя этого мы типизируем createAsyncThunk, он возвращает профайл createAsyncThunk<Profile> void - аргументы не нужны
+    // // payloadCreator
+    // thunkApi - это Api внтури thunk, позволяющий получить доступ к общему состоянию Redux - для этого мы типизируем createAsyncThunk, он возвращает профайл createAsyncThunk<Profile>
+    // void - аргументы не нужны
     // и передаем состояние - { state: RootState }
-    // первый аргумент - без парметров (_,)
+    // первый аргумент - без параметров (_,)
     // получим jwt
     const jwt = thunkApi.getState().user.jwt;
     const { data } = await axios.get<Profile>(`${PREFIX}/user/profile`, {
