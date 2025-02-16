@@ -35,7 +35,6 @@ function Menu() {
       if (e instanceof AxiosError) {
         setError(e.message);
       }
-
       setIsloading(false);
       return;
     }
@@ -50,8 +49,8 @@ function Menu() {
       <div className={styles['head']}>
         <Headling>Меню</Headling>
         <Search
-          type="search"
-          placeholder="Введите блюдо или состав"
+          type='search'
+          placeholder='Введите блюдо или состав'
           onChange={updateFilter}
         />
       </div>

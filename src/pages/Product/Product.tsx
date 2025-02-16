@@ -35,19 +35,19 @@ export function Product() {
                   >
                     <img
                       src={`${import.meta.env.BASE_URL}button_left.svg`}
-                      alt="prev"
+                      alt='prev'
                     />
                   </button>
                   <Heading>{data.name}</Heading>
                 </div>
                 <Button
-                  appearence="big"
+                  appearence='big'
                   className={styles['product-buy']}
                   onClick={() => dispatch(add(data.id))}
                 >
                   <img
                     src={`${import.meta.env.BASE_URL}cart-icon-white.svg`}
-                    alt="cart icon"
+                    alt='cart icon'
                   />
                   В корзину
                 </Button>
@@ -56,7 +56,7 @@ export function Product() {
                 <div className={styles['product-bottom__left']}>
                   <img
                     className={styles['product-bottom__image']}
-                    src={`${import.meta.env.BASE_URL}product-demo.png`}
+                    src={data.image}
                     alt={data.name}
                   />
                 </div>
@@ -78,7 +78,7 @@ export function Product() {
                       {data.rating}
                       <img
                         src={`${import.meta.env.BASE_URL}cart-button-icon.svg`}
-                        alt="Иконка звезды"
+                        alt='Иконка звезды'
                       />
                     </span>
                   </div>

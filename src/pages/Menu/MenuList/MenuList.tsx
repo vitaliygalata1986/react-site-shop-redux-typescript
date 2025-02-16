@@ -14,7 +14,7 @@ function MenuList({ products }: MenuListProps) {
             description={product.ingredients.join(', ')}
             rating={product.rating}
             price={product.price}
-            image={`${import.meta.env.BASE_URL}product-demo.png`}
+            image={product.image}
           />
         );
       })}
