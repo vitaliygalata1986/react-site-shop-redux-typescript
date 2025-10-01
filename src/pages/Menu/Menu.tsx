@@ -27,7 +27,7 @@ function Menu() {
           name,
         },
       });
-      console.log(data); // data (6) [{…}, {…}, {…}, {…}, {…}, {…}]
+      // console.log(data); // data (6) [{…}, {…}, {…}, {…}, {…}, {…}]
       setProduct(data);
       setIsloading(false);
     } catch (e) {
@@ -49,8 +49,8 @@ function Menu() {
       <div className={styles['head']}>
         <Headling>Меню</Headling>
         <Search
-          type='search'
-          placeholder='Введите блюдо или состав'
+          type="search"
+          placeholder="Введите блюдо или состав"
           onChange={updateFilter}
         />
       </div>

@@ -16,20 +16,14 @@ import { store } from './store/store';
 import { Cart } from './pages/Cart/Cart';
 import Success from './pages/Succes/Success';
 
-const Menu = lazy(() => import('./pages/Menu/Menu')); // теперь в Menu хранится lazy компонент Menu - он будет загружаться не сразу
+const Menu = lazy(() => import('./pages/Menu/Menu'));
 
 const router = createBrowserRouter(
   [
-    // массив объектов, который описывает наши роуты
     {
       path: '/',
-      element: (
-        <RequireAuth>
-          <Layout />
-        </RequireAuth>
-      ),
+      element: <Layout />,
       children: [
-        // здесь будут дочерние роуты
         {
           path: '/',
           element: (
@@ -43,52 +37,36 @@ const router = createBrowserRouter(
           element: <Product />,
           errorElement: <>Ошибка</>,
           loader: async ({ params }) => {
-            // loader - функция, которая говорит - как нам загрузить данные, перед тем как отобразить продукт. params - чтобы получить id
-            // иммитация зажержки, а только потом будем запрашивать данные
-            // throw new Error('error');
-            // defer - позволяет обернуть набор данных, которые сами по себе получаются асинхронными
             return defer({
-              // получим в data некоторый набор данных
-
               data: axios
                 .get(`${PREFIX}/products/${params.id}`)
                 .then((data) => data)
                 .catch((error) => {
                   throw new Error(error);
                 }),
-              /*
-            data: new Promise((resolve, reject) => {
-              setTimeout(() => {
-                axios
-                  .get(`${PREFIX}/productss/${params.id}`)
-                  .then((data) => resolve(data))
-                  .catch((e) => reject(e));
-              }, 2000);
-            }),
-            */
             });
-
-            /*
-          await new Promise<void>((resolve) => {
-            setTimeout(() => {
-              resolve();
-            }, 2000);
-          });
-          const { data } = await axios.get(`${PREFIX}/products/${params.id}`);
-          return data;
-          */
           },
         },
+      ],
+    },
+    {
+      element: (
+        <RequireAuth>
+          <Layout />
+        </RequireAuth>
+      ),
+      children: [
         {
-          path: 'cart',
+          path: '/cart',
           element: <Cart />,
         },
         {
-          path: 'success',
+          path: '/success',
           element: <Success />,
         },
       ],
     },
+
     {
       path: '/auth',
       element: <AuthLayout />,
@@ -118,3 +96,8 @@ createRoot(document.getElementById('root')!).render(
     <RouterProvider router={router} />
   </Provider>
 );
+
+/*
+  Публичный и защищённый блоки разделены: один и тот же Layout может переиспользоваться, но гард не мешает гостям смотреть каталог/товары.
+  Если пользователь кликает «Корзина» — попадает на защищённый блок → RequireAuth переведёт на логин.
+*/

@@ -16,11 +16,18 @@
   column-gap: 9px;
   width: 117px;
 }
+
 .main-layout__navigation {
   display: flex;
   flex-direction: column;
   row-gap: 35px;
 }
+
+.main-layout__navigation-link-cart {
+  position: relative;
+  left: -2px;
+}
+
 .main-layout__navigation-link {
   display: flex;
   align-items: center;
@@ -32,6 +39,12 @@
   font-weight: 400;
   line-height: normal;
 }
+
+.main-layout__icon {
+  width: 19px;
+  height: 19px;
+}
+
 .main-layout__user {
   margin-bottom: 47px;
 }

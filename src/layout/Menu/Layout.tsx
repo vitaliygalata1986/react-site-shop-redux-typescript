@@ -6,28 +6,28 @@ import { logOut, getProfile } from '../../store/user.slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispath, RootState } from '../../store/store';
 import { useEffect } from 'react';
+import { useMemo } from 'react';
 
 export function Layout() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispath>();
   const profile = useSelector((s: RootState) => s.user.profile);
   const items = useSelector((s: RootState) => s.cart.items);
+  const jwt = useSelector((s: RootState) => s.user.jwt);
 
-  // const location = useLocation(); // информация о том, где мы сейчас находимся
-
-  /*
-  useEffect(() => {
-    console.log(location); // {pathname: '/', search: '', hash: '', state: null, key: '6hlh1y9w'}
-  }, [location]);
-*/
+  const cartCount = useMemo(
+    () => items.reduce((acc, i) => acc + i.count, 0),
+    [items]
+  );
 
   useEffect(() => {
-    dispatch(getProfile());
-  }, []);
+    if (jwt) {
+      dispatch(getProfile());
+    }
+  }, [jwt, dispatch]);
 
   const logout = () => {
     dispatch(logOut());
-    // localStorage.removeItem('jwt');
     navigate('/auth/login');
   };
 
@@ -40,22 +40,28 @@ export function Layout() {
             src={`${import.meta.env.BASE_URL}avatar.png`}
             alt="avatar"
           />
-          <div className={styles['main-layout__user-info']}>
-            {profile?.name}
-          </div>
-          <a
-            href={`mailto:${profile?.email}`}
-            className={styles['main-layout__user-email']}
-          >
-            {profile?.email}
-          </a>
+          {profile ? (
+            <>
+              <div className={styles['main-layout__user-info']}>
+                {profile.name}
+              </div>
+              <a
+                href={`mailto:${profile.email}`}
+                className={styles['main-layout__user-email']}
+              >
+                {profile.email}
+              </a>
+            </>
+          ) : (
+            <div className={styles['main-layout__user-info']}>Гость</div>
+          )}
         </div>
         <nav className={styles['main-layout__navigation']}>
           <NavLink
             to="/"
             className={({ isActive }) =>
               cn(styles['main-layout__navigation-link'], {
-                [styles.active]: isActive, // еслши это пункт меню активный, то установим ему клас active
+                [styles.active]: isActive,
               })
             }
           >
@@ -68,9 +74,13 @@ export function Layout() {
           <NavLink
             to="/cart"
             className={({ isActive }) =>
-              cn(styles['main-layout__navigation-link'], {
-                [styles.active]: isActive,
-              })
+              cn(
+                styles['main-layout__navigation-link'],
+                styles['main-layout__navigation-link-cart'],
+                {
+                  [styles.active]: isActive,
+                }
+              )
             }
           >
             <img
@@ -78,24 +88,52 @@ export function Layout() {
               alt="cart-icon"
             />
             Корзина
-            <span className={styles['main-layout__cart']}>
-              {items.reduce((acc, item) => (acc += item.count), 0)}
-            </span>
+            <span className={styles['main-layout__cart']}>{cartCount}</span>
           </NavLink>
+
+          {!profile && (
+            <>
+              <NavLink
+                to="/auth/login"
+                className={styles['main-layout__navigation-link']}
+              >
+                <img
+                  className={styles['main-layout__icon']}
+                  src={`${import.meta.env.BASE_URL}login.png`}
+                  alt="cart-icon"
+                />
+                Войти
+              </NavLink>
+              <NavLink
+                to="/auth/register"
+                className={styles['main-layout__navigation-link']}
+              >
+                <img
+                  className={styles['main-layout__icon']}
+                  src={`${import.meta.env.BASE_URL}login.png`}
+                  alt="cart-icon"
+                />
+                Регистрация
+              </NavLink>
+            </>
+          )}
         </nav>
-        <Button
-          appearence="small"
-          className={styles['main-layout__logout']}
-          onClick={logout}
-        >
-          <img src={`${import.meta.env.BASE_URL}logout.svg`} alt="Выйти" />
-          Выйти
-        </Button>
+        {profile ? (
+          <Button
+            appearence="small"
+            className={styles['main-layout__logout']}
+            onClick={logout}
+          >
+            <img src={`${import.meta.env.BASE_URL}logout.svg`} alt="Выйти" />
+            Выйти
+          </Button>
+        ) : null}
       </div>
       <div className={styles['main-layout__right']}>
-        {/* сюда будет подставляться вложенная страница */}
         <Outlet />
       </div>
     </main>
   );
 }
+
+export default Layout;
