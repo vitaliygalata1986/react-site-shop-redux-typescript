@@ -17,7 +17,7 @@ export function Layout() {
 
   const cartCount = useMemo(
     () => items.reduce((acc, i) => acc + i.count, 0),
-    [items]
+    [items],
   );
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export function Layout() {
                 styles['main-layout__navigation-link-cart'],
                 {
                   [styles.active]: isActive,
-                }
+                },
               )
             }
           >

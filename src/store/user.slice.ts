@@ -43,7 +43,7 @@ export const login = createAsyncThunk(
           : e.response?.data.message;
       }
     }
-  }
+  },
 );
 
 export const register = createAsyncThunk(
@@ -56,7 +56,7 @@ export const register = createAsyncThunk(
           email: params.email,
           password: params.password,
           name: params.name,
-        }
+        },
       );
       return data;
     } catch (e) {
@@ -64,7 +64,7 @@ export const register = createAsyncThunk(
         throw e.response?.data.message;
       }
     }
-  }
+  },
 );
 
 /*
@@ -119,7 +119,7 @@ export const getProfile = createAsyncThunk<Profile, void, { state: RootState }>(
       },
     });
     return data;
-  }
+  },
 );
 
 export const userSlice = createSlice({
@@ -136,6 +136,7 @@ export const userSlice = createSlice({
       state.registerErrorMessage = undefined;
     },
   },
+
   extraReducers: (builder) => {
     // builder позволяет добавить кейсы для каждой из асинхронной операции
     builder.addCase(login.fulfilled, (state, action) => {
